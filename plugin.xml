@@ -105,7 +105,7 @@
 			<true/>
 		</config-file>
 
-		<header-file src="src/ios/AppDelegate+IonicDeeplink.m" />
+		<header-file src="src/ios/AppDelegate+IonicDeeplink.h" />
 		<source-file src="src/ios/AppDelegate+IonicDeeplink.m" />
 		<header-file src="src/ios/IonicDeeplinkPlugin.h" />
 		<source-file src="src/ios/IonicDeeplinkPlugin.m" />
