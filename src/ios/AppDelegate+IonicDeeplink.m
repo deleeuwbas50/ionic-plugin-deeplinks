@@ -1,5 +1,5 @@
 #import "AppDelegate.h"
-#import "AppDelegate+IonicDeepLink.h"
+#import "AppDelegate+IonicDeeplink.h"
 #import "IonicDeeplinkPlugin.h"
 
 static NSString *const PLUGIN_NAME = @"IonicDeeplinkPlugin";
@@ -7,6 +7,8 @@ static NSString *const PLUGIN_NAME = @"IonicDeeplinkPlugin";
 @implementation AppDelegate (IonicDeeplinkPlugin)
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    IonicDeeplinkPlugin *plugin = [self.viewController getCommandInstance:PLUGIN_NAME];
+    
     if(plugin == nil) {
         NSLog(@"Unable to get instance of command plugin");
         return NO;
