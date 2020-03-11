@@ -1,36 +1,38 @@
 #import "AppDelegate.h"
+#import "AppDelegate+IonicDeepLink.h"
 #import "IonicDeeplinkPlugin.h"
 
 static NSString *const PLUGIN_NAME = @"IonicDeeplinkPlugin";
 
-/**
- *  Category for the AppDelegate that overrides application:continueUserActivity:restorationHandler method,
- *  so we could handle application launch when user clicks on the link in the browser.
- */
-@interface AppDelegate (IonicDeeplinkPlugin)
-
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options;
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler;
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo;
-
-@end
-
 @implementation AppDelegate (IonicDeeplinkPlugin)
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
-    NSMutableString *sourceApp = [[NSMutableString alloc] init];
-    NSMutableString *annotation = [[NSMutableString alloc] init];
+    if(plugin == nil) {
+        NSLog(@"Unable to get instance of command plugin");
+        return NO;
+    }
     
-    if([options objectForKey:UIApplicationOpenURLOptionsSourceApplicationKey]) {
-        sourceApp = [options objectForKey:UIApplicationOpenURLOptionsSourceApplicationKey];
-    }
+    //Check scheme of URL
+    NSMutableDictionary* dictionary = @{}.mutableCopy;
+    if ([[url scheme] isEqual:@"file"]) {
+        
+        //OpenIn functionality
+        return [plugin handleFileUrl:url];
+    } else {
+        //Deeplink functionality
+        NSMutableString *sourceApp = [[NSMutableString alloc] init];
+        NSMutableString *annotation = [[NSMutableString alloc] init];
+    
+        if([options objectForKey:UIApplicationOpenURLOptionsSourceApplicationKey]) {
+            sourceApp = [options objectForKey:UIApplicationOpenURLOptionsSourceApplicationKey];
+        }
 
-    if([options objectForKey:UIApplicationOpenURLOptionsAnnotationKey]) {
-        annotation = [options objectForKey:UIApplicationOpenURLOptionsAnnotationKey];
-    }
+        if([options objectForKey:UIApplicationOpenURLOptionsAnnotationKey]) {
+            annotation = [options objectForKey:UIApplicationOpenURLOptionsAnnotationKey];
+        }
 
-    return [self application:app openURL:url sourceApplication:sourceApp annotation:annotation];
+        return [self application:app openURL:url sourceApplication:sourceApp annotation:annotation];
+    }
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {

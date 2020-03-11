@@ -88,7 +88,25 @@
 				</dict>
 			</array>
 		</config-file>
+		<config-file target="*-Info.plist" parent="CFBundleDocumentTypes">
+			<array>
+				<dict>
+					<key>CFBundleTypeName</key>
+					<string>PDF</string>
+					<key>LSHandlerRank</key>
+					<string>Alternate</string>
+					<key>LSItemContentTypes</key>
+					<array>
+						<string>com.adobe.pdf</string>
+					</array>
+				</dict>
+			</array>
+		</config-file>
+		<config-file target="*-Info.plist" parent="LSSupportsOpeningDocumentsInPlace">
+			<true/>
+		</config-file>
 
+		<header-file src="src/ios/AppDelegate+IonicDeeplink.m" />
 		<source-file src="src/ios/AppDelegate+IonicDeeplink.m" />
 		<header-file src="src/ios/IonicDeeplinkPlugin.h" />
 		<source-file src="src/ios/IonicDeeplinkPlugin.m" />

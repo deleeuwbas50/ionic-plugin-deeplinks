@@ -30,6 +30,19 @@ var IonicDeeplink = {
    */
   NAVIGATION_DELAY: 800,
 
+  onOpenFile: function(callback) {
+      if (!callback) {
+          console.warn('OpenIn: can\'t subscribe to event without a callback');
+          return;
+      }
+
+      var innerCallback = function(msg) {
+          callback(msg);
+      };
+
+      exec(innerCallback, null, PLUGIN_NAME, "onOpenFile",[]);
+  },
+
   canOpenApp: function (app, cb) {
     exec(cb, null, PLUGIN_NAME, 'canOpenApp', []);
   },
